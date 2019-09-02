@@ -18,3 +18,5 @@ This application Reads current playing song from spotify Api and Grab the Lyrics
 Just Be sure set configFile in configFile.json before start
 
 in your config file you should set your api keys and if you need you can set proxy 
+
+thanx to JohnnyCrazy from increadable Api : https://github.com/JohnnyCrazy/SpotifyAPI-NET
