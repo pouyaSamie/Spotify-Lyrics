@@ -2,14 +2,13 @@
 This application Reads current playing song from spotify Api and Grab the Lyrics from Happi api 
 
 #### How To Use
--  Create an account from  [[spotify Developer Page]][spotify Developer Page]
-[spotify Developer Page]: https://developer.spotify.com/dashboard/login "spotify Developer Page"
 
-- add the given client Id and Client secret to appsetting.json file.
-- Create a Happi Account from [this link][Happi]
-[Happi]: https://happi.dev/ "this link"
 
-- Add The Api Key to Config File (currently it's appsetting.json but you can change the file name in config.json)
+-  Create an account from  [spotify Developer Page](https://developer.spotify.com/dashboard/login)
+
+- add the given client Id and Client secret to appsetting.json file.(you can change the file name in config.json)
+- Create a Happi Account from [this link](https://happi.dev/ "this link")
+- Add The Api Key to appsetting.json (you can change the file name in config.json)
 
 - Enjoy reading Lyrics
 
