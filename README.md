@@ -13,7 +13,7 @@ This application Reads current playing song from spotify Api and Grab the Lyrics
 
 - Enjoy reading Lyrics
 
-###Config File 
+### Config File 
 
 Just Be sure set configFile in configFile.json before start
 
