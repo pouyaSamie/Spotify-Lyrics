@@ -1,4 +1,4 @@
-### SpotifyLyricsGrabber
+### Spotify Lyrics Grabber
 This application Reads current playing song from spotify Api and Grab the Lyrics from Happi api 
 
 #### How To Use
