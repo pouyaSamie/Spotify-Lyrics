@@ -49,10 +49,11 @@ namespace SpotifyAPI.Web
 
             var configFileName = configuration["configFile"];
 
-            builder = new ConfigurationBuilder()
+            var settingBuilder = new ConfigurationBuilder()
                             .SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile(configFileName);
 
+            configuration = settingBuilder.Build();
             Host = configuration["proxy:host"]?? "";
             Port =int.Parse(configuration["proxy:port"]??"80");
             Username = configuration["proxy:user"]??"";
