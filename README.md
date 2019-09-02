@@ -9,7 +9,7 @@ This application Reads current playing song from spotify Api and Grab the Lyrics
 - Create a Happi Account from [this link][Happi]
 [Happi]: https://happi.dev/ "this link"
 
-- Add The Api Key to appsetting.json
+- Add The Api Key to Config File (currently it's appsetting.json but you can change the file name in config.json)
 
 - Enjoy reading Lyrics
 
