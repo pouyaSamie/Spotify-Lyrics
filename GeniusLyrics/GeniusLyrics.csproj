@@ -5,12 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Core.ApiCaller\Core.ApiCaller.csproj" />
     <ProjectReference Include="..\Core.Lyrics\Core.Lyrics.csproj" />
   </ItemGroup>
-  
+
 </Project>

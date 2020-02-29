@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
+using SpotifyLyrics.Console.Example;
 
 namespace SpotifyAPI.Web.Example
 {
@@ -60,6 +61,7 @@ namespace SpotifyAPI.Web.Example
 
         private static void TimerCallbackAsync(Object o)
         {
+            
             if (api == null)
                 return;
 
@@ -69,13 +71,13 @@ namespace SpotifyAPI.Web.Example
 
             songinfo = newsongInfo;
 
-            //Jsu For Spaceing between each song 
-            for (int i = 0; i < 30; i++)
-                Console.WriteLine("");
-
+            Console.ForegroundColor = ConsoleColor.Red;
+            
+            Console.WriteLine("");
             Console.WriteLine(songinfo);
             Console.WriteLine("");
 
+            Console.ForegroundColor = ConsoleColor.White;
             //Read Lyrics
             HappiWebApi happiapi = new HappiWebApi(_HappiapiKey);
             GetLyrics(happiapi, songinfo);
@@ -97,7 +99,7 @@ namespace SpotifyAPI.Web.Example
                 AccessToken = token.AccessToken,
                 TokenType = token.TokenType
             };
-            //PrintUsefulData(api);
+            
             songinfo = await CurrentPlayingsong(api);
             Console.WriteLine(songinfo);
 
@@ -112,6 +114,7 @@ namespace SpotifyAPI.Web.Example
 
 
         }
+
 
         private static async Task<string> CurrentPlayingsong(SpotifyWebAPI api)
         {
@@ -168,5 +171,6 @@ namespace SpotifyAPI.Web.Example
             }
             Console.WriteLine(lyrics.Result.Lyrics);
         }
+
     }
 }

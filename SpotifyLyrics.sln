@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyAPI.Web", "SpotifyAPI.Web\SpotifyAPI.Web.csproj", "{EC8A93BA-27C4-4642-B7A0-11B809C35BE4}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappiLyricsApi.Web", "HappiLyrics.Web\HappiLyricsApi.Web.csproj", "{B2204B02-3B7F-4A1A-A281-06195D7346DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.ApiCaller", "Core.ApiCaller\Core.ApiCaller.csproj", "{C6DF5F71-4989-48AC-8DA8-069FFC050BDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyLyrics.App", "Spotify.App\SpotifyLyrics.App.csproj", "{832CF488-6478-4651-9DAA-4AD8BB2AEEC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeniusLyrics", "GeniusLyrics\GeniusLyrics.csproj", "{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Lyrics", "Core.Lyrics\Core.Lyrics.csproj", "{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{C6DF5F71-4989-48AC-8DA8-069FFC050BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6DF5F71-4989-48AC-8DA8-069FFC050BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6DF5F71-4989-48AC-8DA8-069FFC050BDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{832CF488-6478-4651-9DAA-4AD8BB2AEEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{832CF488-6478-4651-9DAA-4AD8BB2AEEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{832CF488-6478-4651-9DAA-4AD8BB2AEEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{832CF488-6478-4651-9DAA-4AD8BB2AEEC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

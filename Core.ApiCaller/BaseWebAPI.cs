@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.ApiCaller
@@ -28,6 +29,106 @@ namespace Core.ApiCaller
                         NullValueHandling = NullValueHandling.Ignore
                     }
             };
+        }
+
+        public abstract void SetAuthenticationParams(ref Dictionary<string, string> headers, ref string url);
+
+        public T DownloadData<T>(string url) where T : BasicModel
+        {
+            int triesLeft = RetryTimes + 1;
+            Error lastError;
+
+            Tuple<ResponseInfo, T> response = null;
+            do
+            {
+                if (response != null) { Thread.Sleep(RetryAfter); }
+                response = DownloadDataAlt<T>(url);
+
+                response.Item2.AddResponseInfo(response.Item1);
+                lastError = response.Item2.Error;
+
+                triesLeft -= 1;
+
+            } while (UseAutoRetry && triesLeft > 0 && lastError != null && RetryErrorCodes.Contains(lastError.Status));
+
+
+            return response.Item2;
+        }
+
+        public async Task<T> DownloadDataAsync<T>(string url) where T : BasicModel
+        {
+            int triesLeft = RetryTimes + 1;
+            Error lastError;
+
+            Tuple<ResponseInfo, T> response = null;
+            do
+            {
+                if (response != null)
+                {
+                    int msToWait = RetryAfter;
+                    int secondsToWait = GetTooManyRequests(response.Item1);
+                    if (secondsToWait > 0)
+                    {
+                        msToWait = secondsToWait * 1000;
+                    }
+                    await Task.Delay(msToWait).ConfigureAwait(false);
+                }
+                response = await DownloadDataAltAsync<T>(url).ConfigureAwait(false);
+
+                response.Item2.AddResponseInfo(response.Item1);
+                lastError = response.Item2.Error;
+
+                if (TooManyRequestsConsumesARetry || GetTooManyRequests(response.Item1) == -1)
+                {
+                    triesLeft -= 1;
+                }
+
+            } while (UseAutoRetry
+                && triesLeft > 0
+                && (GetTooManyRequests(response.Item1) != -1
+                    || lastError != null && RetryErrorCodes.Contains(lastError.Status)));
+
+
+            return response.Item2;
+        }
+
+        private int GetTooManyRequests(ResponseInfo info)
+        {
+            // 429 is "TooManyRequests" value specified in Spotify API
+            if (429 != (int)info.StatusCode)
+            {
+                return -1;
+            }
+            if (!int.TryParse(info.Headers.Get("Retry-After"), out int secondsToWait))
+            {
+                return -1;
+            }
+            return secondsToWait;
+        }
+        protected Tuple<ResponseInfo, T> DownloadDataAlt<T>(string url)
+        {
+            Dictionary<string, string> headers = GetHeaders();
+
+            if (UseAuth)
+                SetAuthenticationParams(ref headers, ref url);
+
+            return WebClient.DownloadJson<T>(url, headers);
+        }
+
+        protected Task<Tuple<ResponseInfo, T>> DownloadDataAltAsync<T>(string url)
+        {
+            var queryStringsign = url.Contains("?") ? "&" : "?";
+            Dictionary<string, string> headers = GetHeaders();
+            url = $"{url}{queryStringsign}";
+            if (UseAuth)
+                SetAuthenticationParams(ref headers, ref url);
+
+            return WebClient.DownloadJsonAsync<T>(url, headers);
+        }
+
+        private Dictionary<string, string> GetHeaders()
+        {
+            return new Dictionary<string, string>();
         }
 
 
