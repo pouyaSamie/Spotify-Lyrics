@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Lyrics.LyricsModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -54,5 +55,7 @@ namespace HappiLyricsApi.Web.Model
 
         [JsonProperty("copyright_text")]
         public string CopyrightText { get; set; }
+
+        
     }
 }

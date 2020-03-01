@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HappiLyricsApi.Web.Model
+namespace Core.Lyrics.LyricsModel
 {
     public class Response<T>:BasicModel
     {

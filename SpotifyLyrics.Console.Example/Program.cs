@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Lyrics.LyricsModel;
 using HappiLyricsApi.Web;
 using HappiLyricsApi.Web.Model;
 using Microsoft.Extensions.Configuration;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
-using SpotifyLyrics.Console.Example;
+using SpotifyLyrics.ServiceInterface.Common;
+using SpotifyLyrics.ServiceInterface.Spotify;
 
 namespace SpotifyAPI.Web.Example
 {
@@ -25,7 +26,7 @@ namespace SpotifyAPI.Web.Example
         static void Main(string[] args)
         {
             SetApiKeys();
-                        
+
             AuthorizationCodeAuth auth =
                 new AuthorizationCodeAuth(_clientId, _secretId, "http://localhost:4002", "http://localhost:4002",
                     Scope.PlaylistReadPrivate | Scope.PlaylistReadCollaborative | Scope.UserReadCurrentlyPlaying);
@@ -42,12 +43,12 @@ namespace SpotifyAPI.Web.Example
             var builder = new ConfigurationBuilder()
                             .SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile("config.json");
-                           
+
 
             var configuration = builder.Build();
 
             var configFileName = configuration["configFile"];
-            
+
             builder = new ConfigurationBuilder()
                             .SetBasePath(Directory.GetCurrentDirectory())
                             .AddJsonFile(configFileName);
@@ -61,21 +62,19 @@ namespace SpotifyAPI.Web.Example
 
         private static void TimerCallbackAsync(Object o)
         {
-            
+
             if (api == null)
                 return;
 
-            var newsongInfo = CurrentPlayingsong(api).Result;
-            if (songinfo == newsongInfo || newsongInfo == "")
+            var result = CurrentPlayingsong(api).Result;
+            if (songinfo == result.Date || result.Date == "")
                 return;
 
-            songinfo = newsongInfo;
+            songinfo = result.Date;
 
             Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"\n\r{songinfo}\n\r");
             
-            Console.WriteLine("");
-            Console.WriteLine(songinfo);
-            Console.WriteLine("");
 
             Console.ForegroundColor = ConsoleColor.White;
             //Read Lyrics
@@ -99,14 +98,18 @@ namespace SpotifyAPI.Web.Example
                 AccessToken = token.AccessToken,
                 TokenType = token.TokenType
             };
-            
-            songinfo = await CurrentPlayingsong(api);
-            Console.WriteLine(songinfo);
 
-            if (songinfo == "")
+            var result  = await CurrentPlayingsong(api);
+            if (!result.IsSuccess)
+                return;
+
+            Console.WriteLine(result.Date);
+
+            if (result.Date == "")
                 return;
 
             Console.WriteLine("");
+            songinfo = result.Date;
             HappiWebApi happiapi = new HappiWebApi(_HappiapiKey);
             GetLyrics(happiapi, songinfo);
 
@@ -116,42 +119,14 @@ namespace SpotifyAPI.Web.Example
         }
 
 
-        private static async Task<string> CurrentPlayingsong(SpotifyWebAPI api)
-        {
-          
-            SimpleCurrentsong currentsong = await api.GetUserCurrentSong();
-            var songInfo = "";
-
-            if (currentsong.Item == null)
-            {
-                Console.WriteLine("no playing song found");
-                return "";
-            }
-
-
-            //If the ad was playing we will do nothing
-            if (currentsong.currently_playing_type == "ad")
-                return songInfo;
-
-            
-            //for finding lyrics the first Artist is enough
-            songInfo += currentsong.Item.Artists.First().Name;
-
-
-            //if song has something like 'Remasterd' or anything else at the end of it names the lyrics api can not find the actual Lyrics so we eliminate that part
-            songInfo += $"- {currentsong.Item.Name.Split('-')[0].Trim()}";
-            return songInfo;
-
-
-
-
-        }
+        private static async Task<ServiceResult<string>> CurrentPlayingsong(SpotifyWebAPI api) => 
+            await SpotifyServices.CurrentPlayingsong(api);
 
         private static async void GetLyrics(HappiWebApi api, string songInfo)
 
         {
             Response<List<SearchResult>> currentsong = await api.SearchItems(songInfo);
-            if (currentsong.Error !=null)
+            if (currentsong.Error != null)
             {
                 Console.WriteLine($"no lyrics found - {currentsong.Error.Message}");
                 return;
@@ -164,9 +139,9 @@ namespace SpotifyAPI.Web.Example
             var lyricUrl = currentsong.Result.FirstOrDefault().ApiLyrics;
 
             var lyrics = await api.GetLyric(lyricUrl.OriginalString);
-            if (lyrics.Result == null)
+            if (string.IsNullOrEmpty(lyrics?.Result?.Lyrics))
             {
-                Console.WriteLine($"no lyrics found - {lyrics.Error.Message}");
+                Console.WriteLine($"no lyrics found");
                 return;
             }
             Console.WriteLine(lyrics.Result.Lyrics);

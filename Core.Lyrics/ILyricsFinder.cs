@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Core.Lyrics.LyricsModel;
 using System.Threading.Tasks;
 
 namespace Core.Lyrics
 {
     public interface ILyricsFinder<T>
     {
-        Task<T> SearchItems(string q, int limit = 20);
+        Task<Response<T>> SearchItems(string q, int limit = 20);
         
 
     }

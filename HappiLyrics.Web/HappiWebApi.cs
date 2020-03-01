@@ -1,19 +1,13 @@
 ﻿using Core.ApiCaller;
-using Core.ApiCaller.Models;
 using Core.Lyrics;
+using Core.Lyrics.LyricsModel;
 using HappiLyricsApi.Web.Model;
-using SpotifyAPI.Web;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace HappiLyricsApi.Web
 {
-    public class HappiWebApi : BaseWebAPI,ILyricsFinder<Response<List<SearchResult>>>,ILyricsGrabber<Response<LyricsResult>>
+    public class HappiWebApi : BaseWebAPI,ILyricsFinder<List<SearchResult>>,ILyricsDownloader<LyricsResult>
     {
         private string happyApiKey = "";
         public override IWebBuilder _builder => new HappiWebBuilder();
@@ -35,15 +29,17 @@ namespace HappiLyricsApi.Web
             return DownloadDataAsync<Response<List<SearchResult>>>(_happiWebBuilder.SearchItems(q, limit));
         }
 
-        public Task<Response<LyricsResult>> GetLyric(string lyricUrl)
+
+        public async Task<Response<LyricsResult>> GetLyric(string lyricUrl)
         {
-            return DownloadDataAsync<Response<LyricsResult>>(lyricUrl);
+            var result = await DownloadDataAsync<Response<LyricsResult>>(lyricUrl);
+            return result;
         }
 
         public override void SetAuthenticationParams(ref Dictionary<string, string> headers,ref string url) {
             url = $"{url}apikey={happyApiKey}";
         }
 
-        
+      
     }
 }

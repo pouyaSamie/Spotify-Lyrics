@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.ApiCaller", "Core.ApiC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyLyrics.App", "Spotify.App\SpotifyLyrics.App.csproj", "{832CF488-6478-4651-9DAA-4AD8BB2AEEC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeniusLyrics", "GeniusLyrics\GeniusLyrics.csproj", "{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeniusLyrics", "GeniusLyrics\GeniusLyrics.csproj", "{39015FCA-C662-4250-A2FB-5DBEDE6CF3F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Lyrics", "Core.Lyrics\Core.Lyrics.csproj", "{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Lyrics", "Core.Lyrics\Core.Lyrics.csproj", "{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyLyrics.ServiceInterface", "SpotifyLyrics.ServiceInterface\SpotifyLyrics.ServiceInterface.csproj", "{67A3B22C-43C0-4B12-BBAF-A2FC7816BCF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45D8FEF9-7610-4585-9AD5-88F85E7CFF9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67A3B22C-43C0-4B12-BBAF-A2FC7816BCF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67A3B22C-43C0-4B12-BBAF-A2FC7816BCF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67A3B22C-43C0-4B12-BBAF-A2FC7816BCF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67A3B22C-43C0-4B12-BBAF-A2FC7816BCF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

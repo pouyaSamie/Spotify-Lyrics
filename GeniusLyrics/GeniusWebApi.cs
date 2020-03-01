@@ -1,19 +1,23 @@
 ﻿using Core.ApiCaller;
-using Core.ApiCaller.Models;
 using Core.Lyrics;
+using Core.Lyrics.LyricsModel;
 using GeniusLyrics.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GeniusLyrics
 {
-    public class GeniusWebApi : BaseWebAPI,ILyricsFinder<Response<GeniusResult>>
+    public class GeniusWebApi : BaseWebAPI,ILyricsFinder<GeniusResult>,ILyricsDownloader<string>
     {
         public override IWebBuilder _builder => new GeniusApiBuilder();
         private GeniusApiBuilder _geniusApiBuilder => (GeniusApiBuilder)_builder;
+
+        public Task<Response<string>> GetLyric(string lyricUrl)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///     Get Spotify catalog information about artists, albums, tracks or playlists that match a keyword string.
         /// </summary>
@@ -31,5 +35,8 @@ namespace GeniusLyrics
         {
            //Do nothing
         }
+
+     
+        
     }
 }

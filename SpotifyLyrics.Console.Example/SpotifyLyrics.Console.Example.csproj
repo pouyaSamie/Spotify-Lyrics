@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,6 +14,7 @@
     <ProjectReference Include="..\HappiLyrics.Web\HappiLyricsApi.Web.csproj" />
     <ProjectReference Include="..\SpotifyAPI.Web.Auth\SpotifyAPI.Web.Auth.csproj" />
     <ProjectReference Include="..\SpotifyAPI.Web\SpotifyAPI.Web.csproj" />
+    <ProjectReference Include="..\SpotifyLyrics.ServiceInterface\SpotifyLyrics.ServiceInterface.csproj" />
   </ItemGroup>
 
   <ItemGroup>
