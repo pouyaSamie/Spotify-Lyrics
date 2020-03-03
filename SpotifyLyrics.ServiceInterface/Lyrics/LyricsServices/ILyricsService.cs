@@ -12,6 +12,7 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices
     {
         protected ConfigModel ConfigModel { get; }
         public abstract  Task<ServiceResult<IEnumerable<BaseLyricsSearchModel>>> SearchItem(string q, int limit = 20);
+        public abstract  Task<ServiceResult<string>> DownloadLyrics(string url);
         public LyricsService(ConfigModel configModel)
         {
             ConfigModel = configModel;

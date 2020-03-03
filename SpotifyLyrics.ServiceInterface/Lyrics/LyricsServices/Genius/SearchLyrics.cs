@@ -19,6 +19,11 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Genius
 
         }
 
+        public override Task<ServiceResult<string>> DownloadLyrics(string url)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Task<ServiceResult<IEnumerable<BaseLyricsSearchModel>>> SearchItem(string q, int limit = 20)
         {
             throw new NotImplementedException();

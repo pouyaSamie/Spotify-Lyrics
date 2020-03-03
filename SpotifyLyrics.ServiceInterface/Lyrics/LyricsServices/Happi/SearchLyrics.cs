@@ -18,18 +18,27 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Happi
     public class SearchLyrics : LyricsService
     {
         private readonly string _ApiKey;
-
+        HappiWebApi api;
         public SearchLyrics(ConfigModel ConfigModel):base(ConfigModel)
         {
 
-            
+            api = new HappiWebApi(_ApiKey);
             if (string.IsNullOrEmpty(_ApiKey))
                 _ApiKey = GetApiKey();
         }
 
+        public async override Task<ServiceResult<string>> DownloadLyrics(string url)
+        {
+            var lyrics = await api.GetLyric(url);
+            if (string.IsNullOrEmpty(lyrics?.Result?.Lyrics))
+                return ServiceResult<string>.Failed("no lyrics found");
+            return ServiceResult<string>.Success(lyrics.Result.Lyrics);
+            
+        }
+
         public async override Task<ServiceResult<IEnumerable<BaseLyricsSearchModel>>> SearchItem(string q, int limit = 20)
         {
-            HappiWebApi api = new HappiWebApi(_ApiKey);
+            
             var result = await api.SearchItems(q, limit);
             if (!result.Success || result.Error != null)
                 return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Failed(result.Error?.Message);

@@ -120,11 +120,14 @@ namespace SpotifyAPI.Web.Example
 
         }
 
+
         private static string GetLyricsUrl(string songInfo) {
 
             LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Happi);
             var service = factory.CreateLyricsService(new SpotifyLyrics.ServiceInterface.Lyrics.Model.ConfigModel(LyricsSectionconfig));
             var lyricsSearchResult =service.SearchItem(songInfo).GetAwaiter().GetResult();
+
+            // we return the first result of searched items
             return lyricsSearchResult.IsSuccess ? lyricsSearchResult.Date.First().LyricUrl : "";
         }
 
