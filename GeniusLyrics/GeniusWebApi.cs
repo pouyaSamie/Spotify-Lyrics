@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeniusLyrics
 {
-    public class GeniusWebApi : BaseWebAPI,ILyricsFinder<GeniusResult>,ILyricsDownloader<string>
+    public class GeniusWebApi : BaseWebAPI
     {
         public override IWebBuilder _builder => new GeniusApiBuilder();
         private GeniusApiBuilder _geniusApiBuilder => (GeniusApiBuilder)_builder;

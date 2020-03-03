@@ -11,7 +11,10 @@ using Microsoft.Extensions.Configuration;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
+using SpotifyLyrics.Console.Example.Helper;
 using SpotifyLyrics.ServiceInterface.Common;
+using SpotifyLyrics.ServiceInterface.Lyrics.Factory;
+using SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Happi;
 using SpotifyLyrics.ServiceInterface.Spotify;
 
 namespace SpotifyAPI.Web.Example
@@ -20,7 +23,7 @@ namespace SpotifyAPI.Web.Example
     {
         private static string _clientId = "";
         private static string _secretId = "";
-        private static string _HappiapiKey = "";
+        private static IConfigurationSection LyricsSectionconfig;
 
         // ReSharper disable once UnusedParameter.Local
         static void Main(string[] args)
@@ -57,7 +60,7 @@ namespace SpotifyAPI.Web.Example
             configuration = builder.Build();
             _clientId = configuration["SpotifyClientId"];
             _secretId = configuration.GetSection("SpotifySecretId").Value;
-            _HappiapiKey = configuration.GetSection("HappiApiKey").Value;
+            LyricsSectionconfig = configuration.GetSection("LyricsConfig");
         }
 
         private static void TimerCallbackAsync(Object o)
@@ -77,9 +80,9 @@ namespace SpotifyAPI.Web.Example
             
 
             Console.ForegroundColor = ConsoleColor.White;
+
             //Read Lyrics
-            HappiWebApi happiapi = new HappiWebApi(_HappiapiKey);
-            GetLyrics(happiapi, songinfo);
+            GetLyrics(songinfo);
 
 
 
@@ -110,35 +113,34 @@ namespace SpotifyAPI.Web.Example
 
             Console.WriteLine("");
             songinfo = result.Date;
-            HappiWebApi happiapi = new HappiWebApi(_HappiapiKey);
-            GetLyrics(happiapi, songinfo);
+            GetLyrics(songinfo);
 
 
 
 
         }
 
+        private static string GetLyricsUrl(string songInfo) {
+
+            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Happi);
+            var service = factory.CreateLyricsService(new SpotifyLyrics.ServiceInterface.Lyrics.Model.ConfigModel(LyricsSectionconfig));
+            var lyricsSearchResult =service.SearchItem(songInfo).GetAwaiter().GetResult();
+            return lyricsSearchResult.IsSuccess ? lyricsSearchResult.Date.First().LyricUrl : "";
+        }
 
         private static async Task<ServiceResult<string>> CurrentPlayingsong(SpotifyWebAPI api) => 
             await SpotifyServices.CurrentPlayingsong(api);
 
-        private static async void GetLyrics(HappiWebApi api, string songInfo)
+        private static async void GetLyrics(string songinfo)
 
         {
-            Response<List<SearchResult>> currentsong = await api.SearchItems(songInfo);
-            if (currentsong.Error != null)
-            {
-                Console.WriteLine($"no lyrics found - {currentsong.Error.Message}");
+            var url = GetLyricsUrl(songinfo);
+            if (string.IsNullOrEmpty(url))
                 return;
-            }
-            if (!currentsong.Result.Any())
-            {
-                Console.WriteLine("no lyrics found");
-                return;
-            }
-            var lyricUrl = currentsong.Result.FirstOrDefault().ApiLyrics;
 
-            var lyrics = await api.GetLyric(lyricUrl.OriginalString);
+            var apiKey = LyricsSectionconfig["HappiApiKey"];
+            HappiWebApi happiapi = new HappiWebApi(apiKey);
+            var lyrics = await happiapi.GetLyric(url);
             if (string.IsNullOrEmpty(lyrics?.Result?.Lyrics))
             {
                 Console.WriteLine($"no lyrics found");

@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using SpotifyLyrics.ServiceInterface.Lyrics.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HappiLyricsApi.Web.Model
 {
-    public class SearchResult
+    public class SearchResult: BaseLyricsSearchModel
     {
         [JsonProperty("track")]
         public string Track { get; set; }
@@ -48,5 +49,9 @@ namespace HappiLyricsApi.Web.Model
 
         [JsonProperty("api_lyrics")]
         public Uri ApiLyrics { get; set; }
+        
+        public override string LyricUrl { get => this.ApiLyrics.OriginalString; }
+         
+        
     }
 }
