@@ -6,6 +6,6 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.Model
 {
     public class BaseLyricsSearchModel
     {
-        public virtual string LyricUrl { get; }
+        public virtual string LyricUrl { get; set; }
     }
 }

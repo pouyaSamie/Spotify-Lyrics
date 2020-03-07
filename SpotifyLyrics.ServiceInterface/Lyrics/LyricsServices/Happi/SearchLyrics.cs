@@ -21,10 +21,11 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Happi
         HappiWebApi api;
         public SearchLyrics(ConfigModel ConfigModel):base(ConfigModel)
         {
-
-            api = new HappiWebApi(_ApiKey);
+        
             if (string.IsNullOrEmpty(_ApiKey))
                 _ApiKey = GetApiKey();
+
+            api = new HappiWebApi(_ApiKey);
         }
 
         public async override Task<ServiceResult<string>> DownloadLyrics(string url)

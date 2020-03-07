@@ -23,9 +23,9 @@ namespace GeniusLyrics
         /// </summary>
         /// <param name="q">The search query's keywords (and optional field filters and operators), for example q=roadhouse+blues.</param>
         /// <param name="type">A list of item types to search across.</param>
-        /// <param name="limit">The maximum number of items to return. Default: 20. Minimum: 1. Maximum: 50.</param>
+        /// <param name="limit">The maximum number of items to return. Default: 5. Minimum: 1. Maximum: 50.</param>
         /// <returns></returns>
-        public Task<Response<GeniusResult>> SearchItems(string q, int limit = 20)
+        public Task<Response<GeniusResult>> SearchItems(string q, int limit = 5)
         {
             return DownloadDataAsync<Response<GeniusResult>>(_geniusApiBuilder.SearchItems(q, limit));
         }
@@ -38,5 +38,9 @@ namespace GeniusLyrics
 
      
         
-    }
+
+
+
+
 }
+
