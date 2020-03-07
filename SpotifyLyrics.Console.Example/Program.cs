@@ -36,7 +36,7 @@ namespace SpotifyAPI.Web.Example
             auth.AuthReceived += AuthOnAuthReceived;
             auth.Start();
             auth.OpenBrowser();
-            Timer t = new Timer(TimerCallbackAsync, null, 0, 5000);
+            //Timer t = new Timer(TimerCallbackAsync, null, 0, 5000);
             Console.ReadLine();
             auth.Stop(0);
         }
@@ -123,7 +123,7 @@ namespace SpotifyAPI.Web.Example
 
         private static string GetLyricsUrl(string songInfo) {
 
-            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Happi);
+            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Genius);
             var service = factory.CreateLyricsService(new SpotifyLyrics.ServiceInterface.Lyrics.Model.ConfigModel(LyricsSectionconfig));
             var lyricsSearchResult =service.SearchItem(songInfo).GetAwaiter().GetResult();
 
