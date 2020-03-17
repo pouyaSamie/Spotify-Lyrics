@@ -115,7 +115,7 @@ namespace Core.ApiCaller
             return WebClient.DownloadJson<T>(url, headers);
         }
 
-        protected Task<Tuple<ResponseInfo, T>> DownloadDataAltAsync<T>(string url)
+        protected virtual Task<Tuple<ResponseInfo, T>> DownloadDataAltAsync<T>(string url)
         {
             var queryStringsign = url.Contains("?") ? "&" : "?";
             Dictionary<string, string> headers = GetHeaders();

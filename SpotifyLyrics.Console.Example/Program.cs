@@ -36,7 +36,7 @@ namespace SpotifyAPI.Web.Example
             auth.AuthReceived += AuthOnAuthReceived;
             auth.Start();
             auth.OpenBrowser();
-            //Timer t = new Timer(TimerCallbackAsync, null, 0, 5000);
+            Timer t = new Timer(TimerCallbackAsync, null, 0, 5000);
             Console.ReadLine();
             auth.Stop(0);
         }
@@ -66,25 +66,41 @@ namespace SpotifyAPI.Web.Example
         private static void TimerCallbackAsync(Object o)
         {
 
-            if (api == null)
+
+            var result = GetsongInfo();
+            if (!result.IsSuccess)
                 return;
+            
+
+
+            //Read Lyrics
+            GetLyrics(result.Date);
+
+
+
+        }
+
+        private static ServiceResult<string> GetsongInfo()
+        {
+
+            if (api == null)
+                return ServiceResult<string>.Failed("");
+
 
             var result = CurrentPlayingsong(api).Result;
             if (songinfo == result.Date || result.Date == "")
-                return;
+                return ServiceResult<string>.Failed("");
 
             songinfo = result.Date;
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"\n\r{songinfo}\n\r");
-            
+
 
             Console.ForegroundColor = ConsoleColor.White;
 
-            //Read Lyrics
-            GetLyrics(songinfo);
 
-
+            return result;
 
         }
 
@@ -102,16 +118,14 @@ namespace SpotifyAPI.Web.Example
                 TokenType = token.TokenType
             };
 
-            var result  = await CurrentPlayingsong(api);
+            var result = GetsongInfo();
             if (!result.IsSuccess)
+            {
+                Console.WriteLine("Song Not found.");
                 return;
+            }
+                
 
-            Console.WriteLine(result.Date);
-
-            if (result.Date == "")
-                return;
-
-            Console.WriteLine("");
             songinfo = result.Date;
             GetLyrics(songinfo);
 
@@ -121,36 +135,34 @@ namespace SpotifyAPI.Web.Example
         }
 
 
-        private static string GetLyricsUrl(string songInfo) {
+        private async static void GetLyrics(string songInfo) {
 
-            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Genius);
+            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Happi);
             var service = factory.CreateLyricsService(new SpotifyLyrics.ServiceInterface.Lyrics.Model.ConfigModel(LyricsSectionconfig));
-            var lyricsSearchResult =service.SearchItem(songInfo).GetAwaiter().GetResult();
+            var lyricsSearchResult =await service.SearchItem(songInfo);
 
             // we return the first result of searched items
-            return lyricsSearchResult.IsSuccess ? lyricsSearchResult.Date.First().LyricUrl : "";
+            var url =  lyricsSearchResult.IsSuccess ? lyricsSearchResult.Date.First().LyricUrl : "";
+            if (!lyricsSearchResult.IsSuccess)
+            {
+                Console.WriteLine($"Lyrics Error {lyricsSearchResult.Message}");
+                return;
+            }
+            
+            var lyicsResult  = await service.DownloadLyrics(url);
+            if (!lyicsResult.IsSuccess)
+            {
+                Console.WriteLine($"Lyrics Error {lyricsSearchResult.Message}");
+                return;
+            }
+
+            Console.WriteLine(lyricsSearchResult.Date);
         }
 
         private static async Task<ServiceResult<string>> CurrentPlayingsong(SpotifyWebAPI api) => 
             await SpotifyServices.CurrentPlayingsong(api);
 
-        private static async void GetLyrics(string songinfo)
-
-        {
-            var url = GetLyricsUrl(songinfo);
-            if (string.IsNullOrEmpty(url))
-                return;
-
-            var apiKey = LyricsSectionconfig["HappiApiKey"];
-            HappiWebApi happiapi = new HappiWebApi(apiKey);
-            var lyrics = await happiapi.GetLyric(url);
-            if (string.IsNullOrEmpty(lyrics?.Result?.Lyrics))
-            {
-                Console.WriteLine($"no lyrics found");
-                return;
-            }
-            Console.WriteLine(lyrics.Result.Lyrics);
-        }
+        
 
     }
 }

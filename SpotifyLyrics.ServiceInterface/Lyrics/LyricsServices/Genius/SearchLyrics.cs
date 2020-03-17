@@ -39,11 +39,11 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Genius
             if (result == null || !result.Success || result.Result.Meta.Status != 200)
                 return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Failed(result.Error?.Message);
 
-            var topHit = result.Result.Response.Sections.Where(x => x.Hits.Any(c => c.Type == GeniusLyrics.Model.TypeEnum.TopHit)).FirstOrDefault();
+            var topHit = result.Result.Response.Sections.Where(x => x.Type.ToLower() == "top_hit".ToLower()).FirstOrDefault();
             if (topHit is null)
                 return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Failed("No Result");
 
-            return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Success(topHit.Hits.Select(x => new BaseLyricsSearchModel() { LyricUrl = x.Result.Url.OriginalString }).ToList());
+            return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Success(topHit.Hits.Select(x => new BaseLyricsSearchModel() { LyricUrl = x.Result.Url }).ToList());
             
         }
     }
