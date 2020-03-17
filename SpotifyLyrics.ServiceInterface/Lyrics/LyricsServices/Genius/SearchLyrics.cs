@@ -23,9 +23,12 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Genius
              _Api = new GeniusWebApi();
         }
 
-        public override Task<ServiceResult<string>> DownloadLyrics(string url)
+        public async override Task<ServiceResult<string>> DownloadLyrics(string url)
         {
-            throw new NotImplementedException();
+            var lyrics = await _Api.GetLyric(url);
+            if (string.IsNullOrEmpty(lyrics?.Result))
+                return ServiceResult<string>.Failed("no lyrics found");
+            return ServiceResult<string>.Success(lyrics.Result);
         }
 
         public async override Task<ServiceResult<IEnumerable<BaseLyricsSearchModel>>> SearchItem(string q, int limit = 5)

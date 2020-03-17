@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.22" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Core.ApiCaller\Core.ApiCaller.csproj" />
     <ProjectReference Include="..\Core.Lyrics\Core.Lyrics.csproj" />
   </ItemGroup>

@@ -43,6 +43,9 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Happi
             var result = await api.SearchItems(q, limit);
             if (!result.Success || result.Error != null)
                 return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Failed(result.Error?.Message);
+            if(result.Result.Count()==0)
+                return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Failed("No Lyrics found");
+
             return ServiceResult<IEnumerable<BaseLyricsSearchModel>>.Success(result.Result);
 
 

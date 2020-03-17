@@ -137,10 +137,11 @@ namespace SpotifyAPI.Web.Example
 
         private async static void GetLyrics(string songInfo) {
 
-            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Happi);
+            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Genius);
             var service = factory.CreateLyricsService(new SpotifyLyrics.ServiceInterface.Lyrics.Model.ConfigModel(LyricsSectionconfig));
             var lyricsSearchResult =await service.SearchItem(songInfo);
 
+            
             // we return the first result of searched items
             var url =  lyricsSearchResult.IsSuccess ? lyricsSearchResult.Date.First().LyricUrl : "";
             if (!lyricsSearchResult.IsSuccess)
@@ -156,7 +157,7 @@ namespace SpotifyAPI.Web.Example
                 return;
             }
 
-            Console.WriteLine(lyricsSearchResult.Date);
+            Console.WriteLine(lyicsResult.Date);
         }
 
         private static async Task<ServiceResult<string>> CurrentPlayingsong(SpotifyWebAPI api) => 
