@@ -1,4 +1,5 @@
-﻿using SpotifyLyrics.ServiceInterface.Lyrics.Factory;
+﻿using Microsoft.Extensions.Configuration;
+using SpotifyLyrics.ServiceInterface.Lyrics.Factory;
 using SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Genius;
 using SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Happi;
 using System;
@@ -9,19 +10,13 @@ namespace SpotifyLyrics.Console.Example.Helper
 {
     public class LyricsServiceSelector
     {
-        public static LyricsServiceFactory GetFactory(LyricsServices lyricsServices) {
+        public static LyricsServiceFactory GetFactory(IConfigurationSection configSection) {
 
-            switch (lyricsServices)
-            {
-                case LyricsServices.Happi:
-                    return new HappiServiceCreator();
-                    
-                case LyricsServices.Genius:
-                    return new GeniusServiceCreator();
-                default:
-                    return new HappiServiceCreator();
-                    
-            }
+           if (configSection.GetSection("HappiApiKey").Exists())
+                return new HappiServiceCreator();
+           else
+                return new GeniusServiceCreator();
+            
         }
     }
 }

@@ -23,7 +23,7 @@ namespace GeniusLyrics
             
             var doc = new HtmlDocument();
             doc.LoadHtml(result.Item2);
-            var lyricsNode = doc.DocumentNode.Descendants("div").Where(x => x.Attributes.Contains("lyrics")).FirstOrDefault();
+            var lyricsNode = doc.DocumentNode.Descendants("div").Where(x => x.Attributes.Any(c => c.Value == "lyrics")).FirstOrDefault();
             var sb = new StringBuilder();
             foreach (var node in lyricsNode.DescendantsAndSelf())
             {

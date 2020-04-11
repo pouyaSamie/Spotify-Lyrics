@@ -137,7 +137,9 @@ namespace SpotifyAPI.Web.Example
 
         private async static void GetLyrics(string songInfo) {
 
-            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsServices.Genius);
+
+            
+            LyricsServiceFactory factory = LyricsServiceSelector.GetFactory(LyricsSectionconfig);
             var service = factory.CreateLyricsService(new SpotifyLyrics.ServiceInterface.Lyrics.Model.ConfigModel(LyricsSectionconfig));
             var lyricsSearchResult =await service.SearchItem(songInfo);
 
