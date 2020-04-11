@@ -1,6 +1,6 @@
 ### Spotify Lyrics Grabber From Genius Lyrics or Happi Api
 
-This application Reads current playing song from spotify Api and Grab the Lyrics from Happi api 
+This application Reads current playing song from spotify Api and Grab the Lyrics from Happi api or Genius Lyrics. My Example will work for Console. you can easily develope a GUI Interface but i prefer the terminal so i won't add GUI implementation.
 
 #### How To Use
 
