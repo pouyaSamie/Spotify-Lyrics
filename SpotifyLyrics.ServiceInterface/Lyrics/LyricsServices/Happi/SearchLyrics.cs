@@ -30,6 +30,11 @@ namespace SpotifyLyrics.ServiceInterface.Lyrics.LyricsServices.Happi
 
         public async override Task<ServiceResult<string>> DownloadLyrics(string url)
         {
+            Uri uriResult;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uriResult))
+                return ServiceResult<string>.Failed("no lyrics found");
+
+
             var lyrics = await api.GetLyric(url);
             if (string.IsNullOrEmpty(lyrics?.Result?.Lyrics))
                 return ServiceResult<string>.Failed("no lyrics found");
