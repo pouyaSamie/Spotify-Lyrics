@@ -1,4 +1,5 @@
-### Spotify Lyrics Grabber
+### Spotify Lyrics Grabber From Genius Lyrics or Happi Api
+
 This application Reads current playing song from spotify Api and Grab the Lyrics from Happi api 
 
 #### How To Use
@@ -7,8 +8,12 @@ This application Reads current playing song from spotify Api and Grab the Lyrics
 -  Create an account from  [spotify Developer Page](https://developer.spotify.com/dashboard/login)
 
 - add the given client Id and Client secret to appsetting.json file.(you can change the file name in config.json)
-- Create a Happi Account from [this link](https://happi.dev/ "this link")
-- Add The Api Key to appsetting.json (you can change the file name in config.json)
+
+- If you want use happi api (If you want use Genius Lyrics just skip this one )
+   - Create a Happi Account from [this link](https://happi.dev/ "this link")
+   - Add The Api Key to appsetting.json (you can change the file name in config.json)
+- for using Genius
+  - remove HappiApi Section from config File and that will do it.
 
 - Enjoy reading Lyrics
 
