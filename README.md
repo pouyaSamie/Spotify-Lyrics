@@ -15,7 +15,7 @@ This application Reads current playing song from spotify Api and Grab the Lyrics
 - for using Genius
   - remove HappiApi Section from config File and that will do it.
 
-- Enjoy reading Lyrics
+-via terminal navigate to SpotifyLyrics.Console.Example Folder and type dotnet run. you should see the lyrics in your terminal
 
 ### Config File 
 
