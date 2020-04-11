@@ -260,4 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 appsettings.dev.json
-config.json
+SpotifyLyrics.Console.Example/config.json
