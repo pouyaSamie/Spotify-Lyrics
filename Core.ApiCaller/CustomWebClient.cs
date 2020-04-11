@@ -60,17 +60,40 @@ namespace SpotifyAPI.Web
 
         public async Task<Tuple<ResponseInfo, byte[]>> DownloadRawAsync(string url, Dictionary<string, string> headers = null)
         {
-            if (headers != null)
+            try
             {
-                AddHeaders(headers);
+
+                Uri uriResult;
+                if(!Uri.TryCreate(url, UriKind.Absolute, out uriResult))
+                    return new Tuple<ResponseInfo, byte[]>(new ResponseInfo
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        Headers = null,
+                    }, Encoding.UTF8.GetBytes($"{url} is not valid url"));
+
+
+
+
+                if (headers != null)
+                    AddHeaders(headers);
+
+                using (HttpResponseMessage response = await _client.GetAsync(url).ConfigureAwait(false))
+                {
+                    return new Tuple<ResponseInfo, byte[]>(new ResponseInfo
+                    {
+                        StatusCode = response.StatusCode,
+                        Headers = ConvertHeaders(response.Headers)
+                    }, await response.Content.ReadAsByteArrayAsync());
+                }
             }
-            using (HttpResponseMessage response = await _client.GetAsync(url).ConfigureAwait(false))
+            catch (Exception ex)
             {
+
                 return new Tuple<ResponseInfo, byte[]>(new ResponseInfo
                 {
-                    StatusCode = response.StatusCode,
-                    Headers = ConvertHeaders(response.Headers)
-                }, await response.Content.ReadAsByteArrayAsync());
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Headers = null,
+                }, Encoding.UTF8.GetBytes(ex.Message));
             }
         }
 
