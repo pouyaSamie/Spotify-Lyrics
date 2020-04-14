@@ -36,7 +36,7 @@ namespace SpotifyAPI.Web.Example
             auth.AuthReceived += AuthOnAuthReceived;
             auth.Start();
             auth.OpenBrowser();
-            //Timer t = new Timer(TimerCallbackAsync, null, 0, 5000);
+            Timer t = new Timer(TimerCallbackAsync, null, 0, 5000);
             Console.ReadLine();
             auth.Stop(0);
         }
