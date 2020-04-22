@@ -5,7 +5,7 @@ This application Reads current playing song from spotify Api and Grab the Lyrics
 #### How To Use
 
 
--  Create an account from  [spotify Developer Page](https://developer.spotify.com/dashboard/login)
+-  Create a spotify developer account from  [spotify Developer Page](https://developer.spotify.com/dashboard/login) 
 
 - add the given client Id and Client secret to appsetting.json file.(you can change the file name in config.json)
 
